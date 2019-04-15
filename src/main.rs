@@ -1,4 +1,3 @@
-#![deny(warnings)]
 extern crate futures;
 extern crate pretty_env_logger;
 extern crate warp;
@@ -18,7 +17,6 @@ use warp::Filter;
 static NEXT_USER_ID: AtomicUsize = AtomicUsize::new(1);
 
 /// Our state of currently connected users.
-///
 /// - Key is their id
 /// - Value is a sender of `warp::ws::Message`
 type Users = Arc<Mutex<HashMap<usize, mpsc::UnboundedSender<Message>>>>;
@@ -32,9 +30,9 @@ fn main() {
     // Turn our "state" into a new Filter...
     let users = warp::any().map(move || users.clone());
 
-    //TODO: if the route is chat, then websocket
-    // GET /chat -> websocket upgrade
-    let chat = warp::path("chat")
+    //websocket server
+    // GET from route /mem2ws/ -> websocket upgrade
+    let websocket = warp::path("mem2ws")
         // The `ws2()` filter will prepare Websocket handshake...
         .and(warp::ws2())
         .and(users)
@@ -43,11 +41,11 @@ fn main() {
             ws.on_upgrade(move |socket| user_connected(socket, users))
         });
 
-    //TODO: put here a static file server
+    //static file server
     // GET files from route / -> from folder /mem2/
     let fileserver = warp::fs::dir("./mem2/");
 
-    let routes = fileserver.or(chat);
+    let routes = fileserver.or(websocket);
 
     warp::serve(routes).run(([127, 0, 0, 1], 3030));
 }
@@ -56,7 +54,7 @@ fn user_connected(ws: WebSocket, users: Users) -> impl Future<Item = (), Error =
     // Use a counter to assign a new unique ID for this user.
     let my_id = NEXT_USER_ID.fetch_add(1, Ordering::Relaxed);
 
-    eprintln!("new chat user: {}", my_id);
+    eprintln!("new websocket user: {}", my_id);
 
     // Split the socket into a sender and receive of messages.
     let (user_ws_tx, user_ws_rx) = ws.split();

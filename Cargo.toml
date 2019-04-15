@@ -1,7 +1,7 @@
 [package]
 name = "mem2_server"
 version = "0.1.0" 
-description = "serve the game mem2 http + websocket"
+description = "server for the game mem2 http + websocket on the same port"
 authors = ["Luciano Bestia"]
 license = "MIT"
 readme = "README.md"
@@ -10,43 +10,6 @@ categories = ["web-programming::http-server"]
 keywords = ["warp", "server", "http", "websocket"]
 
 [dependencies]
-bytes = "0.4.8"
 futures = "0.1"
-headers = "0.2"
-http = "0.1"
-hyper = "0.12.18"
-log = "0.4"
-mime = "0.3"
-mime_guess = "2.0.0-alpha.6"
-scoped-tls = "1.0"
-serde = "1.0"
-serde_json = "1.0"
-serde_urlencoded = "0.5.3"
-tokio = "0.1.11"
-tokio-io = "0.1"
-rustls = { version = "0.15", optional = true }
-tokio-threadpool = "0.1.7"
-# tls is enabled by default, we don't want that yet
-tungstenite = { default-features = false, version = "0.6" }
-urlencoding = "1.0.0"
 pretty_env_logger = "0.3"
-
-
-[dev-dependencies]
-
-serde_derive = "1.0"
-handlebars = "1.0.0"
-
-[features]
-tls = ["rustls"]
-
-[package.metadata.docs.rs]
-features = ["tls"]
-
-[profile.release]
-codegen-units = 1
-incremental = false
-
-[profile.bench]
-codegen-units = 1
-incremental = false
+warp="0.1.15"
