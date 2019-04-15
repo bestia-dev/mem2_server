@@ -1,0 +1,20 @@
+{
+  "name": "mem2",
+  "collaborators": [
+    "Luciano Furlan <Luciano.Bestia@gmail.com>"
+  ],
+  "description": "Learning Rust Wasm/WebAssembly with Virtual Dom Dodrio",
+  "version": "1.0.2",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LucianoBestia/mem2"
+  },
+  "files": [
+    "mem2_bg.wasm",
+    "mem2.js",
+    "mem2.d.ts"
+  ],
+  "browser": "mem2.js",
+  "types": "mem2.d.ts"
+}

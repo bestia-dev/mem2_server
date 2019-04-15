@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <title>mem2</title>
+  <link rel="stylesheet" href="css/mem2.css">
+</head>
+
+<body>
+  <div id="div_for_virtual_dom">
+      <script src="pkg/mem2.js"></script>
+      <script>
+        wasm_bindgen("pkg/mem2_bg.wasm");
+      </script>
+  </div>
+</body>
+</html>
