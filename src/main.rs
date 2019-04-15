@@ -23,8 +23,9 @@ type Users = Arc<Mutex<HashMap<usize, mpsc::UnboundedSender<Message>>>>;
 
 fn main() {
     pretty_env_logger::init();
+    //bestiavm02.southeastasia.cloudapp.azure.com
     eprintln!(
-        "http server listens 23.101.23.150/mem2/ and websocket /mem2ws/{}",
+        "http server listens 10.0.0.5/mem2/ and websocket /mem2ws/{}",
         ""
     );
 
@@ -50,8 +51,8 @@ fn main() {
     let fileserver = warp::fs::dir("./mem2/");
 
     let routes = fileserver.or(websocket);
-    //Azure VM02 23.101.23.150
-    warp::serve(routes).run(([23, 101, 23, 150], 80));
+    //Azure VM02 10.0.0.5  bestiavm02.southeastasia.cloudapp.azure.com
+    warp::serve(routes).run(([10, 0, 0, 5], 80));
 }
 
 fn user_connected(ws: WebSocket, users: Users) -> impl Future<Item = (), Error = ()> {
