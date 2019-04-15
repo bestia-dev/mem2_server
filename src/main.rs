@@ -52,7 +52,9 @@ fn main() {
 
     let routes = fileserver.or(websocket);
     //Azure VM02 10.0.0.5  bestiavm02.southeastasia.cloudapp.azure.com
+
     warp::serve(routes).run(([10, 0, 0, 5], 80));
+    //warp::serve(routes).run(([127, 0, 0, 1], 4000));
 }
 
 fn user_connected(ws: WebSocket, users: Users) -> impl Future<Item = (), Error = ()> {
