@@ -23,6 +23,10 @@ type Users = Arc<Mutex<HashMap<usize, mpsc::UnboundedSender<Message>>>>;
 
 fn main() {
     pretty_env_logger::init();
+    eprintln!(
+        "http server listens 127.0.0.1:3030/mem2/ and websocket /mem2ws/{}",
+        ""
+    );
 
     // Keep track of all connected users, key is usize, value
     // is a websocket sender.
@@ -42,7 +46,7 @@ fn main() {
         });
 
     //static file server
-    // GET files from route / -> from folder /mem2/
+    // GET files from route /mem2/ -> from folder /mem2/
     let fileserver = warp::fs::dir("./mem2/");
 
     let routes = fileserver.or(websocket);
