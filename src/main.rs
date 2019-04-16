@@ -1,18 +1,58 @@
+//! Learning to code Rust for a http + websocket server on the same port  
+//! using Warp for a simple memory game for kids - mem2.
+//! On the local public IP address on port 80 listens to http and websocket.
+//! Route for http / serves static files from folder /mem2/
+//! Route /mem2ws/ broadcast all websocket msg to all connected clients except sender
+
+//region: Clippy
+#![warn(
+    clippy::all,
+    clippy::restriction,
+    clippy::pedantic,
+    clippy::nursery,
+    clippy::cargo,
+    //variable shadowing is idiomatic to Rust, but unnatural to me.
+    clippy::shadow_reuse,
+    clippy::shadow_same,
+    clippy::shadow_unrelated,
+
+)]
+#![allow(
+    //library from dependencies have this clippy warnings. Not my code.
+    //clippy::cargo_common_metadata,
+    //clippy::multiple_crate_versions,
+    //clippy::wildcard_dependencies,
+    //Rust is more idiomatic without return statement
+    //clippy::implicit_return,
+    //I have private function inside a function. Self does not work there.
+    //clippy::use_self,
+    //Cannot add #[inline] to the start function with #[wasm_bindgen(start)]
+    //because then wasm-pack build --target no-modules returns an error: export `run` not found 
+    //clippy::missing_inline_in_public_items
+)]
+//endregion
+
+//region: extern and use statements
+#[macro_use]
+extern crate log;
+extern crate env_logger;
 extern crate futures;
-extern crate pretty_env_logger;
+extern crate local_ip;
 extern crate warp;
 
+use futures::sync::mpsc;
+use futures::{Future, Stream};
 use std::collections::HashMap;
+use std::net::SocketAddr;
 use std::sync::{
     atomic::{AtomicUsize, Ordering},
     Arc, Mutex,
 };
-
-use futures::sync::mpsc;
-use futures::{Future, Stream};
 use warp::ws::{Message, WebSocket};
 use warp::Filter;
+//endregion
 
+//region: enum, structs, const,...
 /// Our global unique user id counter.
 static NEXT_USER_ID: AtomicUsize = AtomicUsize::new(1);
 
@@ -20,13 +60,21 @@ static NEXT_USER_ID: AtomicUsize = AtomicUsize::new(1);
 /// - Key is their id
 /// - Value is a sender of `warp::ws::Message`
 type Users = Arc<Mutex<HashMap<usize, mpsc::UnboundedSender<Message>>>>;
+//endregion
 
+///main function of the binary
 fn main() {
-    pretty_env_logger::init();
-    //bestiavm02.southeastasia.cloudapp.azure.com
-    eprintln!(
-        "http server listens 10.0.0.5/mem2/ and websocket /mem2ws/{}",
-        ""
+    //nanoseconds in the logger
+    let mut builder = env_logger::Builder::new();
+    builder.default_format_timestamp_nanos(true);
+    builder.init();
+
+    let local_ip = local_ip::get().expect("cannot get local ip");
+    let local_addr = SocketAddr::new(local_ip, 80);
+
+    info!(
+        "http server listening on {} and websocket on /mem2ws/",
+        local_addr.to_string()
     );
 
     // Keep track of all connected users, key is usize, value
@@ -47,21 +95,20 @@ fn main() {
         });
 
     //static file server
-    // GET files from route /mem2/ -> from folder /mem2/
+    // GET files of route / -> are from folder /mem2/
     let fileserver = warp::fs::dir("./mem2/");
 
     let routes = fileserver.or(websocket);
-    //Azure VM02 10.0.0.5  bestiavm02.southeastasia.cloudapp.azure.com
-
-    warp::serve(routes).run(([10, 0, 0, 5], 80));
-    //warp::serve(routes).run(([127, 0, 0, 1], 4000));
+    warp::serve(routes).run(local_addr);
 }
 
+//region: websocket callbacks: connect, msg, disconnect
+///new user connects
 fn user_connected(ws: WebSocket, users: Users) -> impl Future<Item = (), Error = ()> {
     // Use a counter to assign a new unique ID for this user.
     let my_id = NEXT_USER_ID.fetch_add(1, Ordering::Relaxed);
 
-    eprintln!("new websocket user: {}", my_id);
+    info!("new websocket user: {}", my_id);
 
     // Split the socket into a sender and receive of messages.
     let (user_ws_tx, user_ws_rx) = ws.split();
@@ -73,7 +120,7 @@ fn user_connected(ws: WebSocket, users: Users) -> impl Future<Item = (), Error =
         rx.map_err(|()| -> warp::Error { unreachable!("unbounded rx never errors") })
             .forward(user_ws_tx)
             .map(|_tx_rx| ())
-            .map_err(|ws_err| eprintln!("websocket send error: {}", ws_err)),
+            .map_err(|ws_err| info!("websocket send error: {}", ws_err)),
     );
 
     // Save the sender in our list of connected users.
@@ -81,7 +128,6 @@ fn user_connected(ws: WebSocket, users: Users) -> impl Future<Item = (), Error =
 
     // Return a `Future` that is basically a state machine managing
     // this specific user's connection.
-
     // Make an extra clone to give to our disconnection handler...
     let users2 = users.clone();
 
@@ -100,10 +146,11 @@ fn user_connected(ws: WebSocket, users: Users) -> impl Future<Item = (), Error =
         })
         // If at any time, there was a websocket error, log here...
         .map_err(move |e| {
-            eprintln!("websocket error(uid={}): {}", my_id, e);
+            info!("websocket error(uid={}): {}", my_id, e);
         })
 }
 
+///on receive sebsocket message
 fn user_message(my_id: usize, msg: Message, users: &Users) {
     // Skip any non-Text messages...
     let msg = if let Ok(s) = msg.to_str() {
@@ -113,10 +160,9 @@ fn user_message(my_id: usize, msg: Message, users: &Users) {
     };
 
     let new_msg = format!("{}", msg);
-    eprintln!("msg: {}", new_msg);
+    info!("msg: {}", new_msg);
 
     // New message from this user, send it to everyone else (except same uid)...
-    //
     // We use `retain` instead of a for loop so that we can reap any user that
     // appears to have disconnected.
     for (&uid, tx) in users.lock().unwrap().iter() {
@@ -132,10 +178,11 @@ fn user_message(my_id: usize, msg: Message, users: &Users) {
         }
     }
 }
-
+///disconnect user
 fn user_disconnected(my_id: usize, users: &Users) {
-    eprintln!("good bye user: {}", my_id);
+    info!("good bye user: {}", my_id);
 
     // Stream closed up, so remove from the user list
     users.lock().unwrap().remove(&my_id);
 }
+//endregion

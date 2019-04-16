@@ -11,5 +11,8 @@ keywords = ["warp", "server", "http", "websocket"]
 
 [dependencies]
 futures = "0.1"
-pretty_env_logger = "0.3"
+log = "0.4.6"
+env_logger = "0.6.1"
 warp="0.1.15"
+local-ip = "0.1"
+
