@@ -10,7 +10,8 @@ The Websocket server just broadcasts the received msg to all other connected cli
 TODO: limit communication only between 2 players. Broadcasting is a an overkill. How to get the ws client id on the client?   
     
 You can play the game here:  
-https://bestiavm02.southeastasia.cloudapp.azure.com
+https://bestiavm02.southeastasia.cloudapp.azure.com  
+Warning: Sometimes the server is down, because I use it for development. But if you contact me, I will start it.  
 
 The frontend Rust Wasm Dodrio Virtual Dom application code is here:  
 https://github.com/LucianoBestia/mem2  
