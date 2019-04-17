@@ -12,6 +12,8 @@ TODO: limit communication only between 2 players. Broadcasting is a an overkill.
 You can play the game here:  
 https://bestiavm02.southeastasia.cloudapp.azure.com  
 Warning: Sometimes the server is down, because I use it for development. But if you contact me, I will be happy to start it.  
+The adventure with Azure is described here:  
+https://github.com/LucianoBestia/mem2_server/blob/master/AzureVirtualMachine.md  
 
 The frontend Rust Wasm Dodrio Virtual Dom application code is here:  
 https://github.com/LucianoBestia/mem2  
@@ -46,9 +48,22 @@ If the cards match, they are left face up permanently and the player receives a 
 ## TODO:
 - add cmd line parameters for ip and port
 
+## The adventure never ends
+There is so much to learn. That is also the goal of this project.  
+How to use warp for static file server and websocket on the same port.  
+How to route the request to some function (filter).  
+How to use #cfg to have different codes for linux and windows.  
+How to start a command and get the output and parse it with regex.  
+How to use env_logger to write to the screen and with nanoseconds.  
+
 ## References
 Rust  
 https://github.com/seanmonstar/warp  
 https://docs.rs/env_logger/0.6.0/env_logger/struct.Builder.html  
 https://github.com/tcr/rust-local-ip  
+https://regex101.com/
+https://docs.rs/env_logger/*/env_logger/
+https://docs.rs/regex/1.1.2/regex/struct.Captures.html
+https://doc.rust-lang.org/reference/tokens.html#raw-string-literals
+
 

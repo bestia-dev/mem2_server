@@ -67,7 +67,7 @@ type Users = Arc<Mutex<HashMap<usize, mpsc::UnboundedSender<Message>>>>;
 
 ///main function of the binary
 fn main() {
-    //region: log text to stdout depend on ENV variable
+    //region: env_logger log text to stdout depend on ENV variable
     //in Linux : RUST_LOG=info ./mem2_server.exe
     //in Windows I don't know yet.
     //default for env variable info
