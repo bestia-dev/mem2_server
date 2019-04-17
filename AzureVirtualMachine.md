@@ -59,28 +59,28 @@ and have successfully connected to my Azure VM.
 ## Linux commands for a non-Linux user
 
 How to download files:  
-curl https://github.com/LucianoBestia/blahbla -o ws.exe  
+`curl https://github.com/LucianoBestia/blahbla -o ws.exe`  
   
 How to copy a folder over SSH:  
-scp -i .ssh/Luciano -r ~/rs/mem2_vm Luciano@bestiavm02.southeastasia.cloudapp.azure.com:~/wrs  
+`scp -i .ssh/Luciano -r ~/rs/mem2_vm Luciano@bestiavm02.southeastasia.cloudapp.azure.com:~/wrs`  
   
 How to run a binary:  
-sudo ./mem2_server  
+`sudo ./mem2_server`  
   
 Remove directory not empty:  
-rm -rf mem2  
+`rm -rf mem2`  
   
 How to make a file executable. Don't know if it is a must:  
-chmod +x mem2_server  
+`chmod +x mem2_server`  
   
 ## Rust cross build from Windows to Linux
+It must be done from the Linux SubSystem bash.  
 First prepare the target:  
-rustup target add x86_64-unknown-linux-gnu  
+`rustup target add x86_64-unknown-linux-gnu`  
+  
+Build Rust for linux:  
+`cargo build --release --target=x86_64-unknown-linux-gnu`  
 
-
-Build Rust for linux, must use Linux Sub System bash:  
-cargo build --release --target=x86_64-unknown-linux-gnu  
-
-## TODO
+## TODO:
 If I start a program and go away and exit my ssh session. Does the program still run?  
 
