@@ -44,7 +44,7 @@ If the cards do not match, the other player clicks on "Take your turn" and both 
 If the cards match, they are left face up permanently and the player receives a point. He continues to play, he opens the next two cards.  
 
 ## TODO:
-. add milliseconds to Log performance
+- add cmd line parameters for ip and port
 
 ## References
 Rust  
