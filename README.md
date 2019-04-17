@@ -43,6 +43,9 @@ Player1 flips over two cards with two clicks.
 If the cards do not match, the other player clicks on "Take your turn" and both cards are flipped back face down. Then it is his turn and he clicks to flip over his two cards.  
 If the cards match, they are left face up permanently and the player receives a point. He continues to play, he opens the next two cards.  
 
+## TODO:
+. add milliseconds to Log performance
+
 ## References
 Rust  
 https://github.com/seanmonstar/warp  
