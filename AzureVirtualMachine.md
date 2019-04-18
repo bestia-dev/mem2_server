@@ -74,12 +74,25 @@ How to make a file executable. Don't know if it is a must:
 `chmod +x mem2_server`  
   
 ## Rust cross build from Windows to Linux
-It must be done from the Linux SubSystem bash.  
+It is possible to build and run the Linux version from inside Windows.  
+But it must be done from WSL Windows Subsystem for Linux bash.  
+Go to the mem2_server/ folder.  
 First prepare the target:  
 `rustup target add x86_64-unknown-linux-gnu`  
+Build the application in debug mode:  
+`cargo build`  
+Run it with:  
+`sudo target/debug/mem2_server`  
+Warning: `cargo run` will build, but the app will not have permission to listen to ports.  
+Warning: The application needs the `ifconfig` command,  
+but the Windows Subsystem for Linux does not have it.  
+Now it has `ip addr` instead of `ifconfig`. But I still need the old one.  
+To install ifconfig write:  
+`sudo apt-get install net-tools`  
+TODO: found a parser in Rust for `ip addr` https://github.com/mabels/linux-ip-parser/tree/master/rust  
   
-Build Rust for linux:  
-`cargo build --release --target=x86_64-unknown-linux-gnu`  
+For deployment on a true server build the release version for linux:  
+`cargo build --release `  
 
 ## TODO:
 If I start a program and go away and exit my ssh session. Does the program still run?  

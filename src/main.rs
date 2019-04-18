@@ -73,7 +73,7 @@ fn main() {
     //region: ansi terminal color output (for log also)
     //TODO: what is the difference between output and Log? When to use them?
     //only windows need this line
-    let _enabled = ansi_term::enable_ansi_support();
+    enable_ansi_support();
     /*
     //region: examples
     eprintln!(
@@ -274,6 +274,7 @@ fn user_disconnected(my_id: usize, users: &Users) {
 #[cfg(target_family = "unix")]
 ///get local ip for unix with ifconfig
 pub fn local_ip_get() -> Option<IpAddr> {
+    info!("local_ip_get for unix{}", "");
     let output = Command::new("ifconfig")
         .output()
         .expect("failed to execute `ifconfig`");
@@ -282,14 +283,13 @@ pub fn local_ip_get() -> Option<IpAddr> {
 
     let re = Regex::new(r#"(?m)^.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*$"#).unwrap();
     for cap in re.captures_iter(&stdout) {
-        if let Some(host) = cap.at(2) {
-            if host != "127.0.0.1" {
-                if let Ok(addr) = host.parse::<Ipv4Addr>() {
-                    return Some(IpAddr::V4(addr));
-                }
-                if let Ok(addr) = host.parse::<Ipv6Addr>() {
-                    return Some(IpAddr::V6(addr));
-                }
+        let host = cap.get(2).map_or("", |m| m.as_str());
+        if host != "127.0.0.1" {
+            if let Ok(addr) = host.parse::<Ipv4Addr>() {
+                return Some(IpAddr::V4(addr));
+            }
+            if let Ok(addr) = host.parse::<Ipv6Addr>() {
+                return Some(IpAddr::V6(addr));
             }
         }
     }
@@ -299,6 +299,7 @@ pub fn local_ip_get() -> Option<IpAddr> {
 #[cfg(target_family = "windows")]
 ///get local ip for windows with ipconfig
 pub fn local_ip_get() -> Option<IpAddr> {
+    info!("local_ip_get for windows{}", "");
     let output = Command::new("ipconfig")
         .output()
         .expect("failed to execute `ipconfig`");
@@ -329,3 +330,15 @@ pub fn local_ip_get() -> Option<IpAddr> {
     None
 }
 //endregion
+
+//region: only windows need enable ansi support
+#[cfg(target_family = "windows")]
+///ansi support
+pub fn enable_ansi_support() {
+    let _enabled = ansi_term::enable_ansi_support();
+}
+#[cfg(target_family = "unix")]
+///ansi support
+pub fn enable_ansi_support() {
+    //do nothing
+}
