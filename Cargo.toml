@@ -1,6 +1,6 @@
 [package]
 name = "mem2_server"
-version = "0.1.0" 
+version = "1.0.0" 
 description = "server for the game mem2 http + websocket on the same port"
 authors = ["Luciano Bestia"]
 license = "MIT"
@@ -15,3 +15,7 @@ log = "0.4.6"
 env_logger = "0.6.1"
 warp="0.1.15"
 regex="1.1.6"
+# cmd line input parameters
+clap ="2.33.0"
+# colorful output to screen
+ansi_term = "0.11.0"

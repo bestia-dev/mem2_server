@@ -34,11 +34,14 @@
 //region: extern and use statements
 #[macro_use]
 extern crate log;
+extern crate ansi_term;
+extern crate clap;
 extern crate env_logger;
 extern crate futures;
 extern crate regex;
 extern crate warp;
 
+use clap::{App, Arg};
 use env_logger::Env;
 use futures::sync::mpsc;
 use futures::{Future, Stream};
@@ -67,6 +70,26 @@ type Users = Arc<Mutex<HashMap<usize, mpsc::UnboundedSender<Message>>>>;
 
 ///main function of the binary
 fn main() {
+    //region: ansi terminal color output (for log also)
+    //TODO: what is the difference between output and Log? When to use them?
+    //only windows need this line
+    let _enabled = ansi_term::enable_ansi_support();
+    /*
+    //region: examples
+    eprintln!(
+        "This is in red: {}",
+        ansi_term::Colour::Red.paint("a red string")
+    );
+
+    eprintln!(
+        "How about some {} and {}?",
+        ansi_term::Style::new().bold().paint("bold"),
+        ansi_term::Style::new().underline().paint("underline")
+    );
+    //endregion
+    */
+    //endregion
+
     //region: env_logger log text to stdout depend on ENV variable
     //in Linux : RUST_LOG=info ./mem2_server.exe
     //in Windows I don't know yet.
@@ -77,21 +100,52 @@ fn main() {
     builder.init();
     //endregion
 
-    //TODO: add cmdline parameter for ip and port
-    let local_ip = local_ip_get().expect("cannot get local ip");
-    let local_addr = SocketAddr::new(local_ip, 80);
+    //region: cmdline parameters
+    //TODO: is this a clear case for shadowing? The same value in different types
+    //default ip and port
+    let df_local_ip = local_ip_get().expect("cannot get local ip");
+    let df_local_port = 80;
+    //string representation of defaults
+    let prm_ip = df_local_ip.to_string();
+    let prm_port = df_local_port.to_string();
+
+    let matches = App::new("mem2_server")
+        .version("1.0.0")
+        .author("Luciano Bestia")
+        .about("server http and websocket for mem2 game")
+        .arg(
+            Arg::with_name("prm_ip")
+                .value_name("ip")
+                .default_value(&prm_ip)
+                .help("ip address for listening"),
+        )
+        .arg(
+            Arg::with_name("prm_port")
+                .value_name("port")
+                .default_value(&prm_port)
+                .help("port for listening"),
+        )
+        .get_matches();
+
+    //from string parameters to strong types
+    let fnl_prm_ip = matches.value_of("prm_ip").expect("error on prm_ip");
+    let fnl_prm_port = matches.value_of("prm_port").expect("error on prm_port");
+    let local_ip = IpAddr::V4(fnl_prm_ip.parse::<Ipv4Addr>().expect("not an ip address"));
+    let local_port = u16::from_str_radix(fnl_prm_port, 10).expect("not a number");
+    let local_addr = SocketAddr::new(local_ip, local_port);
 
     info!(
-        "http server listening on {} and websocket on /mem2ws/",
-        local_addr.to_string()
+        "mem2 http server listening on {} and websocket on /mem2ws/",
+        ansi_term::Colour::Red.paint(local_addr.to_string())
     );
+    //endregion
 
     // Keep track of all connected users, key is usize, value
     // is a websocket sender.
     let users = Arc::new(Mutex::new(HashMap::new()));
     // Turn our "state" into a new Filter...
     //let users = warp::any().map(move || users.clone());
-    //Clippy recommands this crazyness instead of clone
+    //Clippy recommands this crazyness instead of just users.clone()
     let users = warp::any().map(move || {
         Arc::<
             std::sync::Mutex<
@@ -150,7 +204,7 @@ fn user_connected(ws: WebSocket, users: Users) -> impl Future<Item = (), Error =
     // this specific user's connection.
     // Make an extra clone to give to our disconnection handler...
     //let users2 = users.clone();
-    //Clippy reccomands this crazyness insted of clone()
+    //Clippy reccomands this crazyness insted of users.clone()
     let users2 = Arc::<
         std::sync::Mutex<
             std::collections::HashMap<
@@ -216,7 +270,7 @@ fn user_disconnected(my_id: usize, users: &Users) {
 }
 //endregion
 
-//region: local ip (linux and windows version)
+//region: local ip (linux and windows distict versions)
 #[cfg(target_family = "unix")]
 ///get local ip for unix with ifconfig
 pub fn local_ip_get() -> Option<IpAddr> {
