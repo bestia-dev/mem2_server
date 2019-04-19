@@ -77,6 +77,7 @@ How to make a file executable. I don't need that now:
   
 Create a symlink in WSL to win rustprojects folder  
 `ln -s /mnt/c/Users/Luciano/rustprojects ~/rustprojects`  
+From Android I use ConnectBot for terminal to Linux VM. I copied the private key and saved the ssh address.  
   
 ## Rust cross build from Windows to Linux
 It is possible to build and run the Linux version from inside Windows.  
