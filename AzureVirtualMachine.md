@@ -39,39 +39,44 @@ The default Public IP is Dynamic. It changes every time I stop and start the VM.
 http://bestiavm02.southeastasia.cloudapp.azure.com  
 
 ### SSH keys
-On my win10 machine I have the Linux SubSystem with Debian. I will use bash to work with SSH keys.  
-Create the key:  
-`ssh-keygen -t rsa -b 2048 -C "Luciano"`  
-The ssh_keygen then asks for a filename and I choose `Luciano`.  
-The passphrase, it asks for, can be simple.  
-The files are created in a hidden folder `/home/luciano/.ssh`.  
+On my win10 machine I have WSL Windows Subsystem for Linux with Debian. I will use bash to work with SSH keys.  
+Created the key:  
+`ssh-keygen -t rsa -b 2048 -f ~/.ssh/Luciano`  
+Choosen a passphrase.  
+2 files are created in a hidden folder `~/.ssh`: the private and the pubic key.  
 I need to copy the content of the public key to the Azure portal.  
 To show the content of the file with public key:  
-`cat /home/luciano/.ssh/Luciano.pub`  
+`cat ~/.ssh/Luciano.pub`  
 I copy the result to clipboard and paste it into the Azure Portal field SSH public key.  
 The text should start with "ssh-rsa" and finish with " Luciano" in my case.  
 
 ## connection
 From my computer in bash I write  
-`ssh -i .ssh/Luciano Luciano@bestiavm02.southeastasia.cloudapp.azure.com -v`  
-and have successfully connected to my Azure VM.  
+`ssh -i ~/.ssh/Luciano Luciano@bestiavm02.southeastasia.cloudapp.azure.com -v`  
+and passphrase and successfully connect to my Azure VM.  
 
 ## Linux commands for a non-Linux user
-
+Watchout  - Linux is mostly case sensitive.  
+~ is the special sign for "user folder"  
+  
 How to download files:  
 `curl https://github.com/LucianoBestia/blahbla -o ws.exe`  
   
 How to copy a folder over SSH:  
-`scp -i .ssh/Luciano -r ~/rs/mem2_vm Luciano@bestiavm02.southeastasia.cloudapp.azure.com:~/wrs`  
+`scp -i .ssh/Luciano -r ~/rustprojects/mem2_azure_vm Luciano@bestiavm02.southeastasia.cloudapp.a
+zure.com:~/`  
   
-How to run a binary:  
-`sudo ./mem2_server`  
+How to run a binary with privileges:  
+`sudo ~/mem2_azure_vm/mem2_server`  
   
 Remove directory not empty:  
 `rm -rf mem2`  
   
-How to make a file executable. Don't know if it is a must:  
+How to make a file executable. I don't need that now:  
 `chmod +x mem2_server`  
+  
+Create a symlink in WSL to win rustprojects folder  
+`ln -s /mnt/c/Users/Luciano/rustprojects ~/rustprojects`  
   
 ## Rust cross build from Windows to Linux
 It is possible to build and run the Linux version from inside Windows.  
