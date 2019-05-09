@@ -10,11 +10,28 @@
 </head>
 
 <body>
+  <script>
+    //fetch the text.json and put it in a sessionStorage
+    //because I don't know yet to do this in Rust/wasm.
+    let myRequest = new Request('content/text.json');
+    fetch(myRequest)
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error('HTTP error, status = ' + response.status);
+        }
+        return response.text();
+      })
+      .then(function (text1) {
+        window.sessionStorage.setItem("Spelling", text1);
+      });
+  </script>
+
   <div id="div_for_virtual_dom">
-      <script src="pkg/mem2.js"></script>
-      <script>
-        wasm_bindgen("pkg/mem2_bg.wasm");
-      </script>
   </div>
+  <script type="module">
+    import init from "./pkg/mem2.js";
+    init("./pkg/mem2_bg.wasm");
+   </script>
 </body>
+
 </html>

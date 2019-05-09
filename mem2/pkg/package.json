@@ -15,6 +15,7 @@
     "mem2.js",
     "mem2.d.ts"
   ],
-  "browser": "mem2.js",
-  "types": "mem2.d.ts"
+  "module": "mem2.js",
+  "types": "mem2.d.ts",
+  "sideEffects": "false"
 }
