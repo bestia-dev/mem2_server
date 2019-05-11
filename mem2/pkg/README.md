@@ -1,11 +1,13 @@
-Things are changing fast. This is the situation on 2019-04-16. Luciano Bestia  
+Things are changing fast. This is the situation on 2019-05-10. Luciano Bestia  
 Read the `Last project` first:  
 https://github.com/LucianoBestia/mem1  
 # mem2
 Learning to use Rust Wasm/WebAssembly with Dodrio Virtual Dom and WebSockets communication - second iteration.  
-The simple memory game is for kids. The images are funny cartoon characters from the alphabet. 
-The cards grid is only 4x4. For fun I added the sounds of Morse alphabet codes and 
-show the International Aviation spelling on the screen.  
+This is a simple memory game for kids. The images are funny cartoon characters from the alphabet.  
+The cards grid is only 4x4.  
+For fun I added  
+- the sounds of Morse alphabet codes and  
+- the International Aviation spelling.  
   
 You can play the game here:  
 https://bestiavm02.southeastasia.cloudapp.azure.com  
@@ -24,10 +26,13 @@ The mem2_server project and instructions is here:
 https://github.com/LucianoBestia/mem2_server  
 For development, you have to run the game from the mem2_server. So you will have both the server and client side working.  
 Copy the `mem2/pkg/` folder to `mem2_server/mem2/pkg`. This is the compiled wasm code.  
-After building and running the server, it will print the External IP Address e.g. 192.168.0.22  
+After building and running the server,  
+`cd mem2_server
+cargo run`  
+it will print the External IP Address e.g. 192.168.0.22  
 Open your browser and use that address.  
 The game is made for exactly 2 players. Open 2 browser windows with the same address.  
-Preferably on 2 smartphones on the same WiFi network.  
+Preferably use 2 smartphones on the same WiFi network.  
 # Memory game rules
 This game is for exactly 2 players.  
 Both players must have the webpage simultaneously opened in the browser to allow communication.  
@@ -45,24 +50,17 @@ The player with more points wins.
 I decided that the project "mem1" is good as it is.  
 It is a tutorial how to create a simple wasm with Rust Wasm/WebAssembly with Dodrio Virtual Dom and turn it into a webpage, electron and PhoneGap app. Very multiplatform !  
 Adding anything more would make it difficult to understand and to follow the code.  
-  
 That is why I started a second project "mem2". I continue on the foundation of mem1 and will add stuff.  
 Hopefully more advanced and interesting.  
+Read the interesting StructModel.md to understand the basics of the new structs and data.  
 I built a 2 player mode over WebSockets. With lot of refactoring and enhancements to make the code more Rust idiomatic. I added image transitions and sounds. All 100% Rust code. I learned to use Clippy and the Browser F12 Console. The html+JavaScript+css part didn't change much. It is just "boilerplate code".  
 I opened an account on Azure and create a Linux Virtual Machine to host the game server mem2_server. I learned how to build with Rust and Warp a http + WebSocket server that listen on the same port.  
 I learned a lot!  
 And there is more to learn. The parts of Rust that are very different from other languages are the toughest. A totally new way of thinking.  
 ## VSCode
 I use `//region:` and `//endregion` a lot. To Fold it and UnFold it press `F1` type `fold` and choose from a variety of options. Start with `Fold All`   
-## TODO:
-- how to create documentation from code comments? Now it looks awful. This readme.md looks fine. It would be nice to have it included in the documentation, but how? Look at dodrio. 
-- use cache for players score  
-- on iPhone Safari the local click plays the sound, but the WebSocket message does not play it. On android and windows (Chrome) it works for both events. 
-- read text from server  
-- Restart button and re-ask player.
-- easy change content for different images, sounds and text
 ## Next projects
-Don't know yet.  
+https://github.com/LucianoBestia/mem3_game  
 ## References
 Rust  
 https://doc.rust-lang.org/book/  
@@ -88,4 +86,7 @@ Images included free cartoon characters:
 https://vectorcharacters.net/alphabet-vectors/alphabet-cartoon-characters  
 Favicon from  
 https://www.favicon-generator.org/search/BLACK/M  
+Reference counting, Borrow Checker in runtime instead of compile time  
+https://manishearth.github.io/blog/2015/05/27/wrapper-types-in-rust-choosing-your-guarantees/  
+
 
