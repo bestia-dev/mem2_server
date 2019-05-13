@@ -45,11 +45,6 @@ Player1 flips over two cards with two clicks.
 If the cards do not match, the other player clicks on "Take your turn" and both cards are flipped back face down. Then it is his turn and he clicks to flip over his two cards.  
 If the cards match, they are left face up permanently and the player receives a point. He continues to play, he opens the next two cards.  
 
-## TODO:
-- add cmd line parameters for IP and port
- -use clap::{App, Arg};
- -maybe use colors for output use ansi_term::Colour::Red; use ansi_term::Style;
-
 ## The adventure never ends
 There is so much to learn. That is also the goal of this project.  
 How to use warp for static file server and WebSocket on the same port.  
