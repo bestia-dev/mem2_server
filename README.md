@@ -9,11 +9,8 @@ The browser uses the root route /. The served files are in the folder /mem2/.
 The WebSocket server just broadcasts the received msg to all other connected clients.  
 TODO: limit communication only between 2 players. Broadcasting is a an overkill. How to get the WS client id on the client?  
   
-You can play the game here:  
-https://bestiavm02.southeastasia.cloudapp.azure.com  
-Warning: Sometimes the server is down, because I use it for development. But if you contact me, I will be happy to start it.  
-The adventure with Azure is described here:  
-https://github.com/LucianoBestia/mem2_server/blob/master/AzureVirtualMachine.md  
+You can play the game here (hosted on google cloud platform):  
+http://34.87.17.103/mem2  
 
 The frontend Rust Wasm Dodrio Virtual Dom application code is here:  
 https://github.com/LucianoBestia/mem2  
