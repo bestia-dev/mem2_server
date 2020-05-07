@@ -10,7 +10,7 @@ The WebSocket server just broadcasts the received msg to all other connected cli
 TODO: limit communication only between 2 players. Broadcasting is a an overkill. How to get the WS client id on the client?  
   
 You can play the game here (hosted on google cloud platform):  
-http://34.87.17.103/mem2  
+https://bestia.dev/mem2  
 
 The frontend Rust Wasm Dodrio Virtual Dom application code is here:  
 https://github.com/LucianoBestia/mem2  
@@ -50,6 +50,14 @@ How to use #cfg to have different codes for Linux and windows.
 How to start a command and get the output and parse it with regex.  
 How to use env_logger to write to the screen and with nanoseconds and colors.  
 How to parse cmdline parameters with defaults.
+
+## cargo crev reviews and advisory
+
+It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
+to verify the trustworthiness of each of your dependencies.  
+Please, spread this info.  
+On the web use this url to read crate reviews. Example:  
+<https://bestia.dev/cargo_crev_web/query/num-traits>  
 
 ## References
 Rust  
