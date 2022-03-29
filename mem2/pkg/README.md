@@ -1,6 +1,6 @@
-Things are changing fast. This is the situation on 2019-05-10. Luciano Bestia  
+Things are changing fast. This is the situation on 2019-05-10. bestia.dev  
 Read the `Last project` first:  
-https://github.com/LucianoBestia/mem1  
+https://github.com/bestia-dev/mem1  
 # mem2
 Learning to use Rust Wasm/WebAssembly with Dodrio Virtual Dom and WebSockets communication - second iteration.  
 This is a simple memory game for kids. The images are funny cartoon characters from the alphabet.  
@@ -16,14 +16,14 @@ Warning: Sometimes the server is down, because I use it for development. But if 
 ## Build
 Clone and build
 ```
-git clone git@github.com:LucianoBestia/mem2.git
+git clone git@github.com:bestia-dev/mem2.git
 cd mem2
 wasm-pack build --target web  
 ```
 You cannot use this project without a html/WebSocket server. Read the next chapter.  
 ## Serve
 The mem2_server project and instructions is here:  
-https://github.com/LucianoBestia/mem2_server  
+https://github.com/bestia-dev/mem2_server  
 For development, you have to run the game from the mem2_server. So you will have both the server and client side working.  
 Copy the `mem2/pkg/` folder to `mem2_server/mem2/pkg`. This is the compiled wasm code.  
 After building and running the server,  
@@ -60,7 +60,7 @@ And there is more to learn. The parts of Rust that are very different from other
 ## VSCode
 I use `//region:` and `//endregion` a lot. To Fold it and UnFold it press `F1` type `fold` and choose from a variety of options. Start with `Fold All`   
 ## Next projects
-https://github.com/LucianoBestia/mem3_game  
+https://github.com/bestia-dev/mem3_game  
 ## References
 Rust  
 https://doc.rust-lang.org/book/  

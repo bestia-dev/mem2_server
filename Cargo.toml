@@ -2,10 +2,10 @@
 name = "mem2_server"
 version = "1.0.0" 
 description = "server for the game mem2 http + websocket on the same port"
-authors = ["Luciano Bestia"]
+authors = ["bestia.dev"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/lucianobestia/mem2_server"
+repository = "https://github.com/bestia-dev/mem2_server"
 categories = ["web-programming::http-server"]
 keywords = ["warp", "server", "http", "websocket"]
 publish = false

@@ -111,7 +111,7 @@ fn main() {
 
     let matches = App::new("mem2_server")
         .version("1.0.0")
-        .author("Luciano Bestia")
+        .author("bestia.dev")
         .about("server http and websocket for mem2 game")
         .arg(
             Arg::with_name("prm_ip")

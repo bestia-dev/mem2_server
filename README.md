@@ -1,7 +1,7 @@
 # mem2_server
 
 **Learning to code Rust for a http + WebSocket server on the same port**  
-***version: 2.0  date: 2019-04-16 author: [Dev_Bestia](https://bestia.dev) repository: [GitHub](https://github.com/LucianoBestia/mem2_server)***  
+***version: 2.0  date: 2019-04-16 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/mem2_server)***  
 
 using Warp for a simple memory game for kids - mem2.  
   
@@ -14,14 +14,14 @@ You can play the game here (hosted on google cloud platform):
 <https://bestia.dev/mem2>  
 
 The frontend Rust Wasm Dodrio Virtual Dom application code is here:  
-<https://github.com/LucianoBestia/mem2>  
+<https://github.com/bestia-dev/mem2>  
 
 ## Build and Serve locally
 
 Clone:
 
 ```bash
-git clone git@github.com:LucianoBestia/mem2_server.git  
+git clone git@github.com:bestia-dev/mem2_server.git  
 ```
 
 Run in mem2_server/ folder  
