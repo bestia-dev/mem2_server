@@ -3,6 +3,7 @@ name = "mem2_server"
 version = "1.0.0" 
 description = "server for the game mem2 http + websocket on the same port"
 authors = ["bestia.dev"]
+homepage = "https://bestia.dev"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/bestia-dev/mem2_server"
