@@ -3,6 +3,8 @@
 **Learning to code Rust for a http + WebSocket server on the same port**  
 ***version: 2.0  date: 2019-04-16 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/mem2_server)***  
 
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbestia-dev%2Fmem2_server&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+
 using Warp for a simple memory game for kids - mem2.  
   
 The Http server is just a simple static file server. All the logic is in Wasm in the browser.  
