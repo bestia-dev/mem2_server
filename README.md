@@ -3,7 +3,7 @@
 **Learning to code Rust for a http + WebSocket server on the same port**  
 ***version: 2.0  date: 2019-04-16 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/mem2_server)***  
 
-![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/717788334)
+![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/717788334.svg)
 
 Hashtags: #rustlang #game #tutorial  
 My projects on Github are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
